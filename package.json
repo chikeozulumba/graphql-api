@@ -8,7 +8,7 @@
         "dev": "eval $(cat .env) nodemon -r esm"
     },
     "dependencies": {
-        "apollo-server-express": "^2.8.1",
+        "apollo-server-express": "^2.14.2",
         "bcryptjs": "^2.4.3",
         "connect-redis": "^3.4.2",
         "esm": "^3.2.25",
