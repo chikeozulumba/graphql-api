@@ -14,14 +14,13 @@ import {
     SESSION_LIFETIME,
     REDIS_HOST,
     REDIS_PASSWORD,
-    REDIS_PORT,
 } from '../config';
 import schemaDirectives from './directives'
 
 (async() => {
     try {
         await mongoose.connect(DB_URL, { useNewUrlParser: true })
-            // mongoose.set('debug', true)
+            mongoose.set('debug', true)
 
         const app = express()
 
@@ -29,8 +28,7 @@ import schemaDirectives from './directives'
 
         const RedisStore = connectRedis(session)
         const store = new RedisStore({
-            host: REDIS_HOST,
-            port: REDIS_PORT,
+            url: REDIS_HOST,
             pass: REDIS_PASSWORD,
         })
 
@@ -52,7 +50,6 @@ import schemaDirectives from './directives'
             typeDefs,
             resolvers,
             schemaDirectives,
-            playground: true,
             playground: IN_PROD ? false : {
                 settings: {
                     'request.credentials': 'include'
@@ -62,8 +59,7 @@ import schemaDirectives from './directives'
         })
 
         server.applyMiddleware({ app, cors: true })
-
-        app.listen({ port: 4000 },
+        app.listen({ port: +APP_PORT },
             () => console.log(`Server running on port http://localhost:${APP_PORT}/graphql`)
         )
     } catch (error) {
